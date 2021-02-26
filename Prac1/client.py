@@ -7,8 +7,20 @@ channel = grpc.insecure_channel('localhost:50051')
 
 stub = calculator_pb2_grpc.CalculatorStub(channel)
 
-number = calculator_pb2.Number(value=16)
+text = calculator_pb2.String(value="hola que tal")
 
-response = stub.SquareRoot(number)
+with open("test.txt") as file:
+    textFile = file.read()
 
-print(response.value)
+textFile = calculator_pb2.String(value=textFile)
+
+
+
+response1 = stub.countingWords(text)
+response2 = stub.countingWords(textFile)
+response3 = stub.wordCount(textFile)
+
+
+print(response1.value)
+print(response2.value)
+print(response3.value)

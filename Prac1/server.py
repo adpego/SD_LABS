@@ -13,9 +13,14 @@ import calculator
 # calculator_pbc_grpc.CalculatorServicer
 class CalculatorServicer(calculator_pb2_grpc.CalculatorServicer):
 
-    def SquareRoot (self, request, context):
-        response = calculator_pb2.Number()
-        response.value = calculator.square_root(request.value)
+    def countingWords (self, request, context):
+        response = calculator_pb2.Int()
+        response.value = calculator.countingWords(request.value)
+        return response
+
+    def wordCount (self, request, context):
+        response = calculator_pb2.String()
+        response.value = calculator.wordCount(request.value)
         return response
     
 server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))

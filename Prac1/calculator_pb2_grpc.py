@@ -14,17 +14,28 @@ class CalculatorStub(object):
         Args:
             channel: A grpc.Channel.
         """
-        self.SquareRoot = channel.unary_unary(
-                '/Calculator/SquareRoot',
-                request_serializer=calculator__pb2.Number.SerializeToString,
-                response_deserializer=calculator__pb2.Number.FromString,
+        self.countingWords = channel.unary_unary(
+                '/Calculator/countingWords',
+                request_serializer=calculator__pb2.String.SerializeToString,
+                response_deserializer=calculator__pb2.Int.FromString,
+                )
+        self.wordCount = channel.unary_unary(
+                '/Calculator/wordCount',
+                request_serializer=calculator__pb2.String.SerializeToString,
+                response_deserializer=calculator__pb2.String.FromString,
                 )
 
 
 class CalculatorServicer(object):
     """Missing associated documentation comment in .proto file."""
 
-    def SquareRoot(self, request, context):
+    def countingWords(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def wordCount(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -33,10 +44,15 @@ class CalculatorServicer(object):
 
 def add_CalculatorServicer_to_server(servicer, server):
     rpc_method_handlers = {
-            'SquareRoot': grpc.unary_unary_rpc_method_handler(
-                    servicer.SquareRoot,
-                    request_deserializer=calculator__pb2.Number.FromString,
-                    response_serializer=calculator__pb2.Number.SerializeToString,
+            'countingWords': grpc.unary_unary_rpc_method_handler(
+                    servicer.countingWords,
+                    request_deserializer=calculator__pb2.String.FromString,
+                    response_serializer=calculator__pb2.Int.SerializeToString,
+            ),
+            'wordCount': grpc.unary_unary_rpc_method_handler(
+                    servicer.wordCount,
+                    request_deserializer=calculator__pb2.String.FromString,
+                    response_serializer=calculator__pb2.String.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -49,7 +65,7 @@ class Calculator(object):
     """Missing associated documentation comment in .proto file."""
 
     @staticmethod
-    def SquareRoot(request,
+    def countingWords(request,
             target,
             options=(),
             channel_credentials=None,
@@ -59,8 +75,25 @@ class Calculator(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/Calculator/SquareRoot',
-            calculator__pb2.Number.SerializeToString,
-            calculator__pb2.Number.FromString,
+        return grpc.experimental.unary_unary(request, target, '/Calculator/countingWords',
+            calculator__pb2.String.SerializeToString,
+            calculator__pb2.Int.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def wordCount(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/Calculator/wordCount',
+            calculator__pb2.String.SerializeToString,
+            calculator__pb2.String.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
