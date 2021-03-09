@@ -13,6 +13,8 @@ message Map {
     }
 
 service Calculator {
-    rpc countingWords(String) returns (Int) {}
-    rpc wordCount(String) returns (String) {}
+    rpc create_worker() returns (Int) {}
+    rpc delete_worker(Int) returns (Int) {}
+    rpc list_workers() returns (String) {}
+    rpc job_worker(String, String) returns (Int) {}
 }

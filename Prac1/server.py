@@ -8,21 +8,34 @@ import calculator_pb2_grpc
 
 # import the original calculator.py
 import calculator
-
-# Create a classs to define the server functions, derived from
+# import the original workers.py
+import workers
+# import the original redisOperation.py
+import redisOperations
+# Create a class to define the server functions, derived from
 # calculator_pbc_grpc.CalculatorServicer
 class CalculatorServicer(calculator_pb2_grpc.CalculatorServicer):
-
-    def countingWords (self, request, context):
-        response = calculator_pb2.Int()
-        response.value = calculator.countingWords(request.value)
-        return response
-
-    def wordCount (self, request, context):
-        response = calculator_pb2.String()
-        response.value = calculator.wordCount(request.value)
-        return response
     
+    def create_worker (self, request, context):
+        response = calculator_pb2.String()
+        response.value = workers.create_worker()
+        return response
+
+    def delete_worker (self, request, context):
+        response = calculator_pb2.String()
+        response.value = workers.delete_worker(request.id)
+        return response
+
+    def list_worker (self, request, context):
+        response = calculator_pb2.String()
+        response.value = workers.list_workers()
+        return response 
+
+    def job_worker (self, request, context):
+        response = calculator_pb2.String()
+        response.value = redisOperations.send_operation_to_redis_queue(request.operation, request.file_URL)
+        return response
+        
 server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
 
 calculator_pb2_grpc.add_CalculatorServicer_to_server(
