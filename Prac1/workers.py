@@ -7,12 +7,13 @@ WORKER_ID = 0
 
 def start_worker(id):
     while True:
-        job = redisOperations.get_redis_job_queue()
-        text = calculator.do_request(job['URL'])
+        job = redisOperations.get_redis_job_queue(redisOperations.QUEUE_JOBS)
+        text = calculator.do_request(job['file_URL'])
         if job['operation'] == 'countingWords':
-            calculator.countingWords(text) 
+            result = calculator.countingWords(text) 
         elif job['operation'] == 'wordCount':
-            calculator.wordCount(text)
+            result = calculator.wordCount(text)
+        redisOperations.send_operation_to_redis_queue(result, '', job['id_result'], '')
 
 
 # create_worker: create a worker
@@ -25,13 +26,15 @@ def create_worker():
     WORKERS[WORKER_ID] = proc
 
     WORKER_ID += 1
+    return 0
 
 # delete_worker: delete a worker by id
 def delete_worker(id):
     global WORKERS
     WORKERS[id].terminate()
     del WORKERS[id]
+    return 0
 
 def list_workers():
     global WORKERS
-    return WORKERS
+    return str(WORKERS)
