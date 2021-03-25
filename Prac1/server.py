@@ -1,6 +1,8 @@
+import json
 import grpc 
 from concurrent import futures
 import time
+from google.protobuf.json_format import MessageToDict, MessageToJson
 
 # import the generated classes
 import calculator_pb2
@@ -19,28 +21,29 @@ from hashlib import md5
 class CalculatorServicer(calculator_pb2_grpc.CalculatorServicer):
     
     def create_worker (self, request, context):
-        response = calculator_pb2.String()
+        response = calculator_pb2.Int()
         response.value = workers.create_worker()
         return response
 
     def delete_worker (self, request, context):
-        response = calculator_pb2.String()
+        response = calculator_pb2.Int()
         response.value = workers.delete_worker(request.id)
         return response
 
-    def list_worker (self, request, context):
+    def list_workers (self, request, context):
         response = calculator_pb2.String()
-        response.value = workers.list_workers()
+        response.value = str(workers.list_workers())
         return response 
 
     def job_worker (self, request, context):
-        id_queue = 'queue:'+create_id_queue(request.operation, request.file_URL)
+        id_queue_result = 'queue_result:'+create_id_queue_result(request.operation,request.url)
+        print(request.url[0])
         response = calculator_pb2.String()
-        redisOperations.send_operation_to_redis_queue(request.operation, request.file_URL, redisOperations.QUEUE_JOBS, id_queue)
-        response.value = get_redis_job_queue(id_queue)
+        redisOperations.send_operation_to_redis_queue(request.operation, MessageToDict(request.url, preserving_proto_field_name = True), redisOperations.QUEUE_JOBS, id_queue_result)
+        response.value = str(redisOperations.get_redis_job_queue(id_queue_result)['operation'])
         return response
 
-def create_id_queue (operation, URL):
+def create_id_queue_result (operation, URL):
       aux = str(time.time())+operation+str(URL)     
       return md5(aux.encode()).hexdigest()
 

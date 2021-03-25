@@ -8,13 +8,16 @@ message String {
     string value = 1;
 }
 
-message Map {
-        map<string, int32> value = 1;
-    }
+message Operation {
+    string operation = 1;
+    ListValue string url = 2;
+}
+
+message Empty {}
 
 service Calculator {
-    rpc create_worker() returns (Int) {}
+    rpc create_worker(Empty) returns (Int) {}
     rpc delete_worker(Int) returns (Int) {}
-    rpc list_workers() returns (String) {}
-    rpc job_worker(String, String) returns (Int) {}
+    rpc list_workers(Empty) returns (String) {}
+    rpc job_worker(Operation) returns (String) {}
 }

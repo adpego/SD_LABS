@@ -14,14 +14,24 @@ class CalculatorStub(object):
         Args:
             channel: A grpc.Channel.
         """
-        self.countingWords = channel.unary_unary(
-                '/Calculator/countingWords',
-                request_serializer=calculator__pb2.String.SerializeToString,
+        self.create_worker = channel.unary_unary(
+                '/Calculator/create_worker',
+                request_serializer=calculator__pb2.Empty.SerializeToString,
                 response_deserializer=calculator__pb2.Int.FromString,
                 )
-        self.wordCount = channel.unary_unary(
-                '/Calculator/wordCount',
-                request_serializer=calculator__pb2.String.SerializeToString,
+        self.delete_worker = channel.unary_unary(
+                '/Calculator/delete_worker',
+                request_serializer=calculator__pb2.Int.SerializeToString,
+                response_deserializer=calculator__pb2.Int.FromString,
+                )
+        self.list_workers = channel.unary_unary(
+                '/Calculator/list_workers',
+                request_serializer=calculator__pb2.Empty.SerializeToString,
+                response_deserializer=calculator__pb2.String.FromString,
+                )
+        self.job_worker = channel.unary_unary(
+                '/Calculator/job_worker',
+                request_serializer=calculator__pb2.Operation.SerializeToString,
                 response_deserializer=calculator__pb2.String.FromString,
                 )
 
@@ -29,13 +39,25 @@ class CalculatorStub(object):
 class CalculatorServicer(object):
     """Missing associated documentation comment in .proto file."""
 
-    def countingWords(self, request, context):
+    def create_worker(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
-    def wordCount(self, request, context):
+    def delete_worker(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def list_workers(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def job_worker(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -44,14 +66,24 @@ class CalculatorServicer(object):
 
 def add_CalculatorServicer_to_server(servicer, server):
     rpc_method_handlers = {
-            'countingWords': grpc.unary_unary_rpc_method_handler(
-                    servicer.countingWords,
-                    request_deserializer=calculator__pb2.String.FromString,
+            'create_worker': grpc.unary_unary_rpc_method_handler(
+                    servicer.create_worker,
+                    request_deserializer=calculator__pb2.Empty.FromString,
                     response_serializer=calculator__pb2.Int.SerializeToString,
             ),
-            'wordCount': grpc.unary_unary_rpc_method_handler(
-                    servicer.wordCount,
-                    request_deserializer=calculator__pb2.String.FromString,
+            'delete_worker': grpc.unary_unary_rpc_method_handler(
+                    servicer.delete_worker,
+                    request_deserializer=calculator__pb2.Int.FromString,
+                    response_serializer=calculator__pb2.Int.SerializeToString,
+            ),
+            'list_workers': grpc.unary_unary_rpc_method_handler(
+                    servicer.list_workers,
+                    request_deserializer=calculator__pb2.Empty.FromString,
+                    response_serializer=calculator__pb2.String.SerializeToString,
+            ),
+            'job_worker': grpc.unary_unary_rpc_method_handler(
+                    servicer.job_worker,
+                    request_deserializer=calculator__pb2.Operation.FromString,
                     response_serializer=calculator__pb2.String.SerializeToString,
             ),
     }
@@ -65,7 +97,7 @@ class Calculator(object):
     """Missing associated documentation comment in .proto file."""
 
     @staticmethod
-    def countingWords(request,
+    def create_worker(request,
             target,
             options=(),
             channel_credentials=None,
@@ -75,14 +107,14 @@ class Calculator(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/Calculator/countingWords',
-            calculator__pb2.String.SerializeToString,
+        return grpc.experimental.unary_unary(request, target, '/Calculator/create_worker',
+            calculator__pb2.Empty.SerializeToString,
             calculator__pb2.Int.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
     @staticmethod
-    def wordCount(request,
+    def delete_worker(request,
             target,
             options=(),
             channel_credentials=None,
@@ -92,8 +124,42 @@ class Calculator(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/Calculator/wordCount',
-            calculator__pb2.String.SerializeToString,
+        return grpc.experimental.unary_unary(request, target, '/Calculator/delete_worker',
+            calculator__pb2.Int.SerializeToString,
+            calculator__pb2.Int.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def list_workers(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/Calculator/list_workers',
+            calculator__pb2.Empty.SerializeToString,
+            calculator__pb2.String.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def job_worker(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/Calculator/job_worker',
+            calculator__pb2.Operation.SerializeToString,
             calculator__pb2.String.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

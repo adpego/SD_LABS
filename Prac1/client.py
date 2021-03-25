@@ -4,23 +4,12 @@ import calculator_pb2
 import calculator_pb2_grpc
 
 channel = grpc.insecure_channel('localhost:50051')
-
 stub = calculator_pb2_grpc.CalculatorStub(channel)
 
-text = calculator_pb2.String(value="hola que tal")
-
-with open("test.txt") as file:
-    textFile = file.read()
-
-textFile = calculator_pb2.String(value=textFile)
-
-
-
-response1 = stub.countingWords(text)
-response2 = stub.countingWords(textFile)
-response3 = stub.wordCount(textFile)
-
+operation = calculator_pb2.Operation(operation="wordCount", url=["http://localhost:8000/fitxer1.txt", "http://localhost:8000/fitxer2.txt"])
+response1 = stub.create_worker(calculator_pb2.Empty())
+response2 = stub.job_worker(operation)
 
 print(response1.value)
 print(response2.value)
-print(response3.value)
+print(stub.list_workers(calculator_pb2.Empty()))

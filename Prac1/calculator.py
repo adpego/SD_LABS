@@ -1,3 +1,4 @@
+import requests
 # countingWords: Counts the total number of words in different text files or text entries.
 def countingWords(text):
     return len(text.split())

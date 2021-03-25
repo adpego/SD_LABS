@@ -19,7 +19,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto3',
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\x10\x63\x61lculator.proto\"\x14\n\x03Int\x12\r\n\x05value\x18\x01 \x01(\x05\"\x17\n\x06String\x12\r\n\x05value\x18\x01 \x01(\t\"S\n\x03Map\x12\x1e\n\x05value\x18\x01 \x03(\x0b\x32\x0f.Map.ValueEntry\x1a,\n\nValueEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\r\n\x05value\x18\x02 \x01(\x05:\x02\x38\x01\x32O\n\nCalculator\x12 \n\rcountingWords\x12\x07.String\x1a\x04.Int\"\x00\x12\x1f\n\twordCount\x12\x07.String\x1a\x07.String\"\x00\x62\x06proto3'
+  serialized_pb=b'\n\x10\x63\x61lculator.proto\"\x14\n\x03Int\x12\r\n\x05value\x18\x01 \x01(\x05\"\x17\n\x06String\x12\r\n\x05value\x18\x01 \x01(\t\"+\n\tOperation\x12\x11\n\toperation\x18\x01 \x01(\t\x12\x0b\n\x03url\x18\x02 \x03(\t\"\x07\n\x05\x45mpty2\x94\x01\n\nCalculator\x12\x1f\n\rcreate_worker\x12\x06.Empty\x1a\x04.Int\"\x00\x12\x1d\n\rdelete_worker\x12\x04.Int\x1a\x04.Int\"\x00\x12!\n\x0clist_workers\x12\x06.Empty\x1a\x07.String\"\x00\x12#\n\njob_worker\x12\n.Operation\x1a\x07.String\"\x00\x62\x06proto3'
 )
 
 
@@ -89,25 +89,25 @@ _STRING = _descriptor.Descriptor(
 )
 
 
-_MAP_VALUEENTRY = _descriptor.Descriptor(
-  name='ValueEntry',
-  full_name='Map.ValueEntry',
+_OPERATION = _descriptor.Descriptor(
+  name='Operation',
+  full_name='Operation',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   create_key=_descriptor._internal_create_key,
   fields=[
     _descriptor.FieldDescriptor(
-      name='key', full_name='Map.ValueEntry.key', index=0,
+      name='operation', full_name='Operation.operation', index=0,
       number=1, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='value', full_name='Map.ValueEntry.value', index=1,
-      number=2, type=5, cpp_type=1, label=1,
-      has_default_value=False, default_value=0,
+      name='url', full_name='Operation.url', index=1,
+      number=2, type=9, cpp_type=9, label=3,
+      has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
@@ -117,35 +117,29 @@ _MAP_VALUEENTRY = _descriptor.Descriptor(
   nested_types=[],
   enum_types=[
   ],
-  serialized_options=b'8\001',
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=106,
-  serialized_end=150,
+  serialized_start=67,
+  serialized_end=110,
 )
 
-_MAP = _descriptor.Descriptor(
-  name='Map',
-  full_name='Map',
+
+_EMPTY = _descriptor.Descriptor(
+  name='Empty',
+  full_name='Empty',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   create_key=_descriptor._internal_create_key,
   fields=[
-    _descriptor.FieldDescriptor(
-      name='value', full_name='Map.value', index=0,
-      number=1, type=11, cpp_type=10, label=3,
-      has_default_value=False, default_value=[],
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
   ],
   extensions=[
   ],
-  nested_types=[_MAP_VALUEENTRY, ],
+  nested_types=[],
   enum_types=[
   ],
   serialized_options=None,
@@ -154,15 +148,14 @@ _MAP = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=67,
-  serialized_end=150,
+  serialized_start=112,
+  serialized_end=119,
 )
 
-_MAP_VALUEENTRY.containing_type = _MAP
-_MAP.fields_by_name['value'].message_type = _MAP_VALUEENTRY
 DESCRIPTOR.message_types_by_name['Int'] = _INT
 DESCRIPTOR.message_types_by_name['String'] = _STRING
-DESCRIPTOR.message_types_by_name['Map'] = _MAP
+DESCRIPTOR.message_types_by_name['Operation'] = _OPERATION
+DESCRIPTOR.message_types_by_name['Empty'] = _EMPTY
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 Int = _reflection.GeneratedProtocolMessageType('Int', (_message.Message,), {
@@ -179,23 +172,21 @@ String = _reflection.GeneratedProtocolMessageType('String', (_message.Message,),
   })
 _sym_db.RegisterMessage(String)
 
-Map = _reflection.GeneratedProtocolMessageType('Map', (_message.Message,), {
-
-  'ValueEntry' : _reflection.GeneratedProtocolMessageType('ValueEntry', (_message.Message,), {
-    'DESCRIPTOR' : _MAP_VALUEENTRY,
-    '__module__' : 'calculator_pb2'
-    # @@protoc_insertion_point(class_scope:Map.ValueEntry)
-    })
-  ,
-  'DESCRIPTOR' : _MAP,
+Operation = _reflection.GeneratedProtocolMessageType('Operation', (_message.Message,), {
+  'DESCRIPTOR' : _OPERATION,
   '__module__' : 'calculator_pb2'
-  # @@protoc_insertion_point(class_scope:Map)
+  # @@protoc_insertion_point(class_scope:Operation)
   })
-_sym_db.RegisterMessage(Map)
-_sym_db.RegisterMessage(Map.ValueEntry)
+_sym_db.RegisterMessage(Operation)
+
+Empty = _reflection.GeneratedProtocolMessageType('Empty', (_message.Message,), {
+  'DESCRIPTOR' : _EMPTY,
+  '__module__' : 'calculator_pb2'
+  # @@protoc_insertion_point(class_scope:Empty)
+  })
+_sym_db.RegisterMessage(Empty)
 
 
-_MAP_VALUEENTRY._options = None
 
 _CALCULATOR = _descriptor.ServiceDescriptor(
   name='Calculator',
@@ -204,25 +195,45 @@ _CALCULATOR = _descriptor.ServiceDescriptor(
   index=0,
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_start=152,
-  serialized_end=231,
+  serialized_start=122,
+  serialized_end=270,
   methods=[
   _descriptor.MethodDescriptor(
-    name='countingWords',
-    full_name='Calculator.countingWords',
+    name='create_worker',
+    full_name='Calculator.create_worker',
     index=0,
     containing_service=None,
-    input_type=_STRING,
+    input_type=_EMPTY,
     output_type=_INT,
     serialized_options=None,
     create_key=_descriptor._internal_create_key,
   ),
   _descriptor.MethodDescriptor(
-    name='wordCount',
-    full_name='Calculator.wordCount',
+    name='delete_worker',
+    full_name='Calculator.delete_worker',
     index=1,
     containing_service=None,
-    input_type=_STRING,
+    input_type=_INT,
+    output_type=_INT,
+    serialized_options=None,
+    create_key=_descriptor._internal_create_key,
+  ),
+  _descriptor.MethodDescriptor(
+    name='list_workers',
+    full_name='Calculator.list_workers',
+    index=2,
+    containing_service=None,
+    input_type=_EMPTY,
+    output_type=_STRING,
+    serialized_options=None,
+    create_key=_descriptor._internal_create_key,
+  ),
+  _descriptor.MethodDescriptor(
+    name='job_worker',
+    full_name='Calculator.job_worker',
+    index=3,
+    containing_service=None,
+    input_type=_OPERATION,
     output_type=_STRING,
     serialized_options=None,
     create_key=_descriptor._internal_create_key,
