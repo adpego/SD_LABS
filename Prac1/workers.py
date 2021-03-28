@@ -10,12 +10,15 @@ def start_worker(id):
         job = redisOperations.get_redis_job_queue(redisOperations.QUEUE_JOBS)
         print(len(job['file_URL']))
         print("Operacion recibida!!!!!!")
-        text = calculator.do_request(job['file_URL'])
-        if job['operation'] == 'countingWords':
-            result = calculator.countingWords(text) 
-        elif job['operation'] == 'wordCount':
-            result = calculator.wordCount(text)
-        redisOperations.send_operation_to_redis_queue(result, '', job['id_queue_result'], '')
+        redisOperations.send_operation_to_redis_queue(len(job['file_URL']), '', job['id_queue_result'], '')
+        
+        #text = calculator.do_request(job['file_URL'])
+        #if job['operation'] == 'countingWords':
+        #    result = calculator.countingWords(text) 
+        #elif job['operation'] == 'wordCount':
+        #    result = calculator.wordCount(text)
+        #redisOperations.send_operation_to_redis_queue(result, '', job['id_queue_result'], '')
+
         print("Resultado enviado!")
 
 

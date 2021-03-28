@@ -2,7 +2,8 @@ import json
 import grpc 
 from concurrent import futures
 import time
-from google.protobuf.json_format import MessageToDict, MessageToJson
+
+
 
 # import the generated classes
 import calculator_pb2
@@ -37,9 +38,10 @@ class CalculatorServicer(calculator_pb2_grpc.CalculatorServicer):
 
     def job_worker (self, request, context):
         id_queue_result = 'queue_result:'+create_id_queue_result(request.operation,request.url)
-        print(request.url[0])
+        urls = request.url[:]
         response = calculator_pb2.String()
-        redisOperations.send_operation_to_redis_queue(request.operation, MessageToDict(request.url, preserving_proto_field_name = True), redisOperations.QUEUE_JOBS, id_queue_result)
+      
+        redisOperations.send_operation_to_redis_queue(request.operation, urls, redisOperations.QUEUE_JOBS, id_queue_result)
         response.value = str(redisOperations.get_redis_job_queue(id_queue_result)['operation'])
         return response
 
