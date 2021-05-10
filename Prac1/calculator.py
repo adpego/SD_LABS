@@ -13,6 +13,7 @@ def wordCount(text):
             counts[word] += 1
         else:
             counts[word] = 1
+    
     return str(counts)
 
 # do_request: do a request
