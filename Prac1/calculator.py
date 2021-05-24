@@ -18,4 +18,7 @@ def wordCount(text):
 
 # do_request: do a request
 def do_request(URL):
-    return requests.get(URL).text
+    r = requests.get(URL)
+    if r.status_code == 404:
+        return ''
+    return r.text
