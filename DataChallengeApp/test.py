@@ -2,6 +2,7 @@ import matplotlib.pyplot as plt
 import libdata
 
 
+
 day = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun']
 dataReddit = [0.5,0.2,0.3,-0.1,-0.4,0.3,0.7]
 datatwitter = [0.4,0.3,0.4,-0.2,-0.5,0.1,0.5]
