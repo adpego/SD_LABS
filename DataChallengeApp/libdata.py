@@ -109,9 +109,17 @@ def getData(dateIni, days):
 
 
     with Pool() as pool:
-        resultTwitterAsync = pool.map_async(getDataTwitter, days)
         resultRedditAsync = pool.map_async(getDataReddit, days)
+        resultTwitterAsync = pool.map_async(getDataTwitter, days)
         resultBitcoinAsync = pool.map_async(getDataBitcoin, days)
         
-    return resultTwitterAsync.get(), resultRedditAsync.get(), resultBitcoinAsync.get()
+    return resultRedditAsync.get(), resultTwitterAsync.get(), resultBitcoinAsync.get(), days
 
+"""dataReddit, dataTwitter, dataBitcoin, days = getData(1,3)
+dataRedditSentiment = [post['SentimentAvg'] for post in dataReddit]
+dataTwitterSentiment = [post['SentimentAvg'] for post in dataTwitter]
+
+print(dataRedditSentiment)
+print(dataTwitterSentiment)
+print(dataBitcoin)
+print(days)"""
