@@ -10,8 +10,8 @@ def getDataReddit(date):
         "NumPosts": 0,
         "NumPostSent": 0,
         "NumPostNoSent": 0,
-        "PercentPostsPositive": 0,
-        "PercentPostsNegative": 0,
+        "NumPostsPositive": 0,
+        "NumPostsNegative": 0,
         "SentimentAvg": 0,
     }
 
@@ -27,9 +27,9 @@ def getDataReddit(date):
             dataPosts['NumPostSent'] += 1
 
             if post['sentiment'] > 0: # sentiment positive
-                dataPosts['PercentPostsPositive'] += 1
+                dataPosts['NumPostsPositive'] += 1
             else: # sentiment negative
-                dataPosts['PercentPostsNegative'] += 1
+                dataPosts['NumPostsNegative'] += 1
 
         else:  # without sentiment
             dataPosts['NumPostNoSent'] += 1
@@ -37,8 +37,7 @@ def getDataReddit(date):
 
     if dataPosts['NumPostSent'] != 0:
         dataPosts['SentimentAvg'] /= dataPosts['NumPostSent']
-        dataPosts['PercentPostsPositive'] /= dataPosts['NumPostSent']
-        dataPosts['PercentPostsNegative'] /= dataPosts['NumPostSent']
+
 
     return dataPosts
 
@@ -48,8 +47,8 @@ def getDataTwitter(date):
         "NumPosts": 0,
         "NumPostSent": 0,
         "NumPostNoSent": 0,
-        "PercentPostsPositive": 0,
-        "PercentPostsNegative": 0,
+        "NumPostsPositive": 0,
+        "NumPostsNegative": 0,
         "SentimentAvg": 0,
     }
 
@@ -65,9 +64,9 @@ def getDataTwitter(date):
             dataPosts['NumPostSent'] += 1
 
             if post['sentiment'] > 0: # sentiment positive
-                dataPosts['PercentPostsPositive'] += 1
+                dataPosts['NumPostsPositive'] += 1
             else: # sentiment negative
-                dataPosts['PercentPostsNegative'] += 1
+                dataPosts['NumPostsNegative'] += 1
 
         else:  # without sentiment
             dataPosts['NumPostNoSent'] += 1
@@ -75,8 +74,6 @@ def getDataTwitter(date):
 
     if dataPosts['NumPostSent'] != 0:
         dataPosts['SentimentAvg'] /= dataPosts['NumPostSent']
-        dataPosts['PercentPostsPositive'] /= dataPosts['NumPostSent']
-        dataPosts['PercentPostsNegative'] /= dataPosts['NumPostSent']
 
     return dataPosts
 
@@ -98,7 +95,7 @@ def getDataBitcoin(date):
 
 def getData(dateIni, days):
     days = []
-    for i in range(2,-1,-1):
+    for i in range(10,-1,-1):
         today = str(datetime.date.today()-datetime.timedelta(days=i))
         days.append(today)
 
@@ -110,34 +107,73 @@ def getData(dateIni, days):
         
     return resultRedditAsync.get(), resultTwitterAsync.get(), resultBitcoinAsync.get(), days
 
-
 dataReddit, dataTwitter, dataBitcoin, days = getData(1,3)
-dataRedditSentiment = [post['NumPosts'] for post in dataReddit]
-dataTwitterSentiment = [post['NumPosts'] for post in dataTwitter]
+dataReddit, dataTwitter, dataBitcoin, days = getData(1,3)
+dataRedditSentiment = [post['SentimentAvg'] for post in dataReddit]
+dataTwitterSentiment = [post['SentimentAvg'] for post in dataTwitter]
 
 
-
+fig, axs = plt.subplots(2)
+fig.tight_layout(pad=2.0)
 day = days
-#dataReddit = [0.5,0.2,0.3,-0.1,-0.4,0.3,0.7]
-#dataTwitter = [0.4,0.3,0.4,-0.2,-0.5,0.1,0.5]
-lineReddit = plt.plot(day, dataRedditSentiment, color='#FF4500')
-lineTwitter = plt.plot(day, dataTwitterSentiment, color='#1da1f2')
-plt.xlabel('Day',color="green")
-plt.ylabel('Sentiment',color="green")
-plt.title('Sentiment Reddit/Twitter')
-plt.legend(['Reddit', 'Twitter'], loc=3)
-plt.axhline(y=0, color='black', linestyle='-')
-plt.grid(True)
+#day = [0.5,0.2,0.3,-0.1,-0.4,0.3,0.7]
+#dataRedditSentiment = [0.5,0.2,0.3,-0.1,-0.4,0.3,0.7]
+#dataTwitterSentiment = [0.4,0.3,0.4,-0.2,-0.5,0.1,0.5]
+lineReddit = axs[0].plot(day, dataRedditSentiment, color='#FF4500')
+lineTwitter = axs[0].plot(day, dataTwitterSentiment, color='#1da1f2')
+#axs[0].set_xlabel('Day',color="green")
+axs[0].set_ylabel('Sentiment',color="green")
+axs[0].set_title('Sentiment Reddit/Twitter')
+axs[0].legend(['Reddit', 'Twitter'], loc=3)
+axs[0].axhline(y=0, color='black', linestyle='-')
+axs[0].grid(True)
+
+#plt.show()
+
+
+#dataBitcoin = [4,3,2,12,3,54,3]
+lineReddit = axs[1].plot(day, dataBitcoin, color='#f2a900')
+axs[1].set_xlabel('Day',color="green")
+axs[1].set_ylabel('Sentiment',color="green")
+axs[1].set_title('Bitcoin')
+axs[1].legend(['Reddit'], loc=3)
+axs[1].axhline(y=20000, color='black', linestyle='-')
+axs[1].grid(True)
+
+
+plt.setp(axs[0].get_xticklabels(), rotation=30, horizontalalignment='right')
+plt.setp(axs[1].get_xticklabels(), rotation=30, horizontalalignment='right')
+
 plt.show()
 
 
 
-lineReddit = plt.plot(day, dataBitcoin, color='#FF4500')
-plt.xlabel('Day',color="green")
-plt.ylabel('Sentiment',color="green")
-plt.title('Sentiment Reddit/Twitter')
-plt.legend(['Reddit'], loc=3)
-plt.axhline(y=20000, color='black', linestyle='-')
-plt.grid(True)
+totalPositivePostsTwitter = sum([post['NumPostsPositive'] for post in dataTwitter])
+totalNegativePostsTwitter = sum([post['NumPostsNegative'] for post in dataTwitter])
+totalNoSentPostsTwitter = sum([post['NumPostNoSent'] for post in dataTwitter])
+
+totalPositivePostsReddit = sum([post['NumPostsPositive'] for post in dataReddit])
+totalNegativePostsReddit = sum([post['NumPostsNegative'] for post in dataReddit])
+totalNoSentPostsReddit = sum([post['NumPostNoSent'] for post in dataReddit])
+
+fig, (ax1,ax2) = plt.subplots(1,2, figsize=(10,10))
+# Pie chart
+labels = ['Negative', 'Non-Sentiment', 'Positive']
+colors = ['#ff9999','#9a9a9a','#99ff99']
+explode = (0.05,0.05,0.05)
+
+sizesTwitter = [totalNegativePostsTwitter, totalNoSentPostsTwitter, totalPositivePostsTwitter]# only "explode" the 2nd slice (i.e. 'Hogs')
+#explode = (0, 0.1, 0, 0)#add colors
+#fig1, ax1 = plt.subplots()
+ax1.pie(sizesTwitter, labels=labels, colors=colors, autopct='%1.1f%%', startangle=90, explode = explode)# Equal aspect ratio ensures that pie is drawn as a circle
+ax1.axis('equal')
+ax1.set_title("TWITTER")
+
+sizesReddit = [totalNegativePostsReddit, totalNoSentPostsReddit, totalPositivePostsReddit]
+ax2.pie(sizesReddit, labels=labels, colors=colors, autopct='%1.1f%%', startangle=90, explode = explode)# Equal aspect ratio ensures that pie is drawn as a circle
+ax2.axis('equal')
+ax2.set_title("REDDIT")
+fig.suptitle("2021-05-22 to 2021-05-27", fontsize=14)
+plt.tight_layout()
 plt.show()
 
