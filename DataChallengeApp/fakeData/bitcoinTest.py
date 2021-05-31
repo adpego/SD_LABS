@@ -4,17 +4,6 @@ from random import randint
 import datetime
 
 
-# storageCloud = Storage()
-# today = '2021-05-20'
-# try:
-#     data = storageCloud.get_object('test-bythepego', 'bitcoin/'+today+'.json')
-#     data = json.loads(data)
-# except storage.utils.StorageNoSuchKeyError:
-#     data = {
-#         'priceArray': []
-#     }
-
-# print(len(data['priceArray']))
 
 storageCloud = Storage()
 data = {

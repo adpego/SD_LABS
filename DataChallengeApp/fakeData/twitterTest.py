@@ -5,19 +5,6 @@ import datetime
 
 
 storageCloud = Storage()
-# today = '2021-05-20'
-# try:
-#     data = storageCloud.get_object('test-bythepego', 'bitcoin/'+today+'.json')
-#     data = json.loads(data)
-# except storage.utils.StorageNoSuchKeyError:
-#     data = {
-#         'priceArray': []
-#     }
-
-# print(len(data['priceArray']))
-
-#storageCloud = Storage()
-
 
 
 for i in range(10):
@@ -38,8 +25,3 @@ for i in range(10):
     storageCloud.put_object('test-bythepego','test/twitter/'+today+'.json', json.dumps(data))
     
     
-
-# for _ in range(96):
-#     data['priceArray'].append(randint(2000000,6000000)/100)
-#     print(data)
-#     storageCloud.put_object('test-bythepego','test/bitcoin/'+today+'.json', json.dumps(data))
