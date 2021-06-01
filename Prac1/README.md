@@ -1,6 +1,6 @@
 # Pràctica 1 - Communication models and Middleware
 
-**Middelware utilitzats:** gRPC i Reddis
+**Middelware utilitzats:** gRPC i Redis
 
 **Funcions RPC:**
 ```python
@@ -18,7 +18,7 @@ countingWords(list_urls) # Counts the number of occurrences of each word in a te
 
 **Passos per executar-ho:**
 ```bash
-# Engegar reddis (port 50051)
+# Engegar redis (port 50051)
 > redis-server
 
 # Engegar el servidor RPC
