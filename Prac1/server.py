@@ -39,10 +39,14 @@ class CalculatorServicer(calculator_pb2_grpc.CalculatorServicer):
         urls = request.url[:]
         response = calculator_pb2.String()
 
-        if len(urls) >= 2 and workers.WORKER_NUMBER <= 2:
-            response.value = "Need more workers"
+        if len(urls) >= 2 and workers.WORKER_NUMBER < 2:
+            response.value = "Need more than 1 worker"
             return response
         
+        if workers.WORKER_NUMBER < 1:
+            response.value = "No workers..., create worker to execute a job"
+            return response
+
         redisOperations.send_operation_to_redis_queue(request.operation, urls, redisOperations.QUEUE_JOBS, id_queue_result)
         response.value = str(redisOperations.get_redis_job_queue(id_queue_result, 60)['operation'])
         return response

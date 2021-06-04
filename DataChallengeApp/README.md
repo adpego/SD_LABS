@@ -15,7 +15,7 @@ S'ha utilitzat [IBM Cloud](https://www.ibm.com/cloud) per emmagatzermar dades i 
 | **Min** | **Hour** | **Day** | **Month** | **Week** | **Function** |
 |:-:|:-:|:-:|:-:|:-:|---|
 |50|*/2|*|*|*| Twitter Crawler
-|*|*/4|*|*|*| Reddit Crawler
+|0|*|*|*|*| Reddit Crawler
 |45|23|*|*|*| Reddit Comments Crawler
 |*/15|*|*|*|*| Bitcoin Crawler 
 
