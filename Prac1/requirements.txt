@@ -1,0 +1,4 @@
+grpcio
+requests
+beautifulsoup4
+redis

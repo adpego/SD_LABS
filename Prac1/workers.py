@@ -16,9 +16,9 @@ def start_worker(id):
         if (len(job['file_URL']) == 1): #1 url, do function
             text = calculator.do_request(job['file_URL'][0])
 
-            if job['operation'] == 'countingWords':
+            if job['operation'] == 'countingwords':
                 result = calculator.countingWords(text) 
-            elif job['operation'] == 'wordCount':
+            elif job['operation'] == 'wordcount':
                 result = calculator.wordCount(text)
 
         elif (len(job['file_URL']) > 1): #>1 url, put on redis queue
@@ -27,12 +27,12 @@ def start_worker(id):
                 redisOperations.send_operation_to_redis_queue(job['operation'], [job['file_URL'][i]], redisOperations.QUEUE_JOBS, id_worker)
 
             # SUM RESULTS
-            if job['operation'] == 'countingWords': 
+            if job['operation'] == 'countingwords': 
                 result = 0
                 for i in range(len(job['file_URL'])):
                     result += redisOperations.get_redis_job_queue(id_worker,30)['operation']
 
-            elif job['operation'] == 'wordCount':
+            elif job['operation'] == 'wordcount':
                 result = {}
 
                 for i in range(len(job['file_URL'])):
@@ -58,19 +58,23 @@ def create_worker():
 
     WORKER_ID += 1
     WORKER_NUMBER += 1
-    print("Se ha creado un worker!")
+    print("A worker has been created")
     return 0
 
 # delete_worker: delete a worker by id
 def delete_worker(id):
     global WORKERS
     global WORKER_NUMBER
-
-    WORKER_NUMBER -= 1
-    WORKERS[id].terminate()
-    del WORKERS[id]
     
-    print("Se ha eliminado un worker!")
+    try:
+        WORKERS[id].terminate()
+        del WORKERS[id]
+        WORKER_NUMBER -= 1
+
+    except:
+        return 1
+
+    print("A worker has been deleted!")
     return 0
 
 def list_workers():

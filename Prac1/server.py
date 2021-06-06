@@ -26,7 +26,7 @@ class CalculatorServicer(calculator_pb2_grpc.CalculatorServicer):
 
     def delete_worker (self, request, context):
         response = calculator_pb2.Int()
-        response.value = workers.delete_worker(request.id)
+        response.value = workers.delete_worker(request.value)
         return response
 
     def list_workers (self, request, context):
@@ -44,7 +44,7 @@ class CalculatorServicer(calculator_pb2_grpc.CalculatorServicer):
             return response
         
         if workers.WORKER_NUMBER < 1:
-            response.value = "No workers..., create worker to execute a job"
+            response.value = "No workers... create a worker to execute a job"
             return response
 
         redisOperations.send_operation_to_redis_queue(request.operation, urls, redisOperations.QUEUE_JOBS, id_queue_result)
