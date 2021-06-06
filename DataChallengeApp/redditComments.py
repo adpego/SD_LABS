@@ -27,7 +27,6 @@ def getComments(comments, data):
             getComments(comment['data']['replies'], data)
     
     
-
 def readComments(url, data):
     r = requests.get(url, headers=header)
     if len(r.text) == 46:
@@ -65,12 +64,11 @@ def getUrls():
         
 
 
-
 def main():
     storageCloud = Storage()
     today = str(date.today())
     try:
-        data = storageCloud.get_object('test-bythepego', 'COMMENTS/reddit/'+today+'.json')
+        data = storageCloud.get_object('test-bythepego', 'reddit/'+today+'.json')
         data = json.loads(data)
     except storage.utils.StorageNoSuchKeyError:
         data = {
@@ -81,7 +79,7 @@ def main():
         data = readComments(url[0], data)
         time.sleep(5)
 
-    storageCloud.put_object('test-bythepego','COMMENTS/reddit/'+today+'.json', json.dumps(data))
+    storageCloud.put_object('test-bythepego','reddit/'+today+'.json', json.dumps(data))
 
 if __name__ == "__main__":
     main()
